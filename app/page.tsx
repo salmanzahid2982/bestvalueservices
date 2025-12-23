@@ -1,7 +1,7 @@
 'use client'
 
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion'
-import { Phone, Mail, MapPin, Star, CheckCircle, ArrowRight, Truck, Wrench, Zap, Droplets, ShoppingBag, Home, Smartphone, ShieldCheck, Award, Users, Clock, Menu, X, Sun, Moon, Sparkles as SparklesIcon } from 'lucide-react'
+import { Phone, Mail, MapPin, Star, CheckCircle, ArrowRight, Truck, Wrench, Zap, Droplets, ShoppingBag, Home, Smartphone, ShieldCheck, Award, Users, Clock, Menu, X, Sun, Moon, Sparkles as SparklesIcon, MessageCircle } from 'lucide-react'
 import { useRef, useState, useEffect, useMemo } from 'react'
 import { FaPhoneAlt, FaWhatsapp } from 'react-icons/fa'
 import { Canvas, useFrame } from '@react-three/fiber'
@@ -16,7 +16,7 @@ const Scene = () => {
     }
   })
 
-  const birds = useMemo(() => Array.from({ length: 40 }).map(() => ({
+  const shapes = useMemo(() => Array.from({ length: 15 }).map(() => ({
     position: [
       (Math.random() - 0.5) * 20,
       (Math.random() - 0.5) * 15,
@@ -30,12 +30,12 @@ const Scene = () => {
     <group ref={ref}>
       <ambientLight intensity={0.5} />
       <directionalLight position={[10, 10, 5]} intensity={1} />
-      <Sparkles count={200} scale={[20, 20, 10]} size={3} speed={0.4} opacity={0.5} color="#60a5fa" />
-      {birds.map((bird, i) => (
+      <Sparkles count={100} scale={[20, 20, 10]} size={2} speed={0.5} opacity={0.5} color="#22d3ee" />
+      {shapes.map((shape, i) => (
         <Float key={i} speed={2} rotationIntensity={2} floatIntensity={2}>
-          <mesh position={bird.position} rotation={bird.rotation} scale={bird.scale}>
-            <coneGeometry args={[0.08, 0.2, 3]} />
-            <meshStandardMaterial color="#e2e8f0" transparent opacity={0.2} />
+          <mesh position={shape.position} rotation={shape.rotation} scale={shape.scale}>
+            <icosahedronGeometry args={[0.8, 1]} />
+            <meshStandardMaterial color="#bae6fd" wireframe transparent opacity={0.3} />
           </mesh>
         </Float>
       ))}
@@ -103,12 +103,12 @@ const HomePage = () => {
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? (isDark ? 'bg-slate-900/90 backdrop-blur-md shadow-md py-4' : 'bg-white/90 backdrop-blur-md shadow-md py-4') : 'bg-transparent py-6'}`}>
         <div className="container mx-auto px-6 flex justify-between items-center">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-cyan-400 rounded-xl flex items-center justify-center shadow-lg transform rotate-3 hover:rotate-0 transition-all duration-300">
+            <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-cyan-500 rounded-xl flex items-center justify-center shadow-lg transform rotate-3 hover:rotate-0 transition-all duration-300">
               <SparklesIcon className="text-white w-6 h-6" />
             </div>
             <div className={`flex flex-col leading-none ${isScrolled ? (isDark ? 'text-white' : 'text-gray-800') : 'text-white'}`}>
               <span className="font-bold text-xl tracking-tight">Comfort</span>
-              <span className={`text-xs font-bold tracking-widest uppercase ${isScrolled ? (isDark ? 'text-blue-400' : 'text-blue-600') : 'text-blue-200'}`}>Home Services</span>
+              <span className={`text-xs font-bold tracking-widest uppercase ${isScrolled ? (isDark ? 'text-cyan-400' : 'text-cyan-600') : 'text-cyan-200'}`}>Home Services</span>
             </div>
           </div>
           
@@ -118,7 +118,7 @@ const HomePage = () => {
               <button 
                 key={item}
                 onClick={() => scrollToSection(item.toLowerCase())}
-                className={`font-medium hover:text-blue-400 transition-colors ${isScrolled ? (isDark ? 'text-gray-300' : 'text-gray-700') : 'text-white'}`}
+                className={`font-medium hover:text-cyan-400 transition-colors ${isScrolled ? (isDark ? 'text-gray-300' : 'text-gray-700') : 'text-white'}`}
               >
                 {item}
               </button>
@@ -177,7 +177,7 @@ const HomePage = () => {
       <section id="home" ref={targetRef} className="relative min-h-screen flex items-center justify-center overflow-hidden bg-transparent">
         <div className="absolute inset-0 bg-black/20"></div>
         <div className="absolute inset-0">
-          <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1581578731548-c64695cc6952?q=80&w=2000&auto=format&fit=crop')] bg-cover bg-center opacity-20"></div>
+          <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1614850523459-c2f4c699c52e?q=80&w=2000&auto=format&fit=crop')] bg-cover bg-center opacity-20"></div>
         </div>
         
         <motion.div 
@@ -191,7 +191,7 @@ const HomePage = () => {
             variants={fadeInUp}
           >
             Professional Home{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-yellow-300">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-blue-300">
               Utility Services
             </span>
           </motion.h1>
@@ -209,14 +209,14 @@ const HomePage = () => {
           >
             <motion.button 
               onClick={() => setIsContactModalOpen(true)}
-              className="px-8 py-4 bg-gradient-to-r from-blue-500 to-emerald-500 text-white font-bold rounded-full text-lg hover:shadow-2xl transition-all duration-300 flex items-center gap-2"
+              className="px-8 py-4 bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-bold rounded-full text-lg hover:shadow-[0_0_30px_rgba(34,211,238,0.5)] border border-transparent hover:border-white/50 transition-all duration-300 flex items-center gap-2"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
               <Phone className="w-5 h-5" /> Contact Us
             </motion.button>
             <motion.button 
-              className="px-8 py-4 border-2 border-white text-white font-bold rounded-full text-lg hover:bg-white hover:text-blue-600 transition-all duration-300"
+              className="px-8 py-4 border-2 border-white/20 backdrop-blur-sm text-white font-bold rounded-full text-lg hover:bg-white/10 hover:border-cyan-400 hover:shadow-[0_0_30px_rgba(34,211,238,0.3)] transition-all duration-300"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => scrollToSection('services')}
@@ -265,7 +265,7 @@ const HomePage = () => {
             viewport={{ once: true }}
           >
             <h2 className={`text-4xl md:text-5xl font-bold mb-6 ${isDark ? 'text-white' : 'text-gray-800'}`}>
-              About <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-600">Comfort Home</span>
+              About <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-600">Comfort Home</span>
             </h2>
             <p className={`text-xl max-w-3xl mx-auto ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
               We are a trusted family business serving communities for over 10 years with exceptional home utility services.
@@ -295,7 +295,7 @@ const HomePage = () => {
                     transition={{ delay: index * 0.1, duration: 0.6 }}
                     viewport={{ once: true }}
                   >
-                    <div className="p-3 bg-gradient-to-r from-purple-600 to-blue-600 rounded-full">
+                    <div className="p-3 bg-gradient-to-r from-blue-600 to-cyan-600 rounded-full">
                       <item.icon className="w-6 h-6 text-white" />
                     </div>
                     <div>
@@ -314,7 +314,7 @@ const HomePage = () => {
               transition={{ duration: 0.8 }}
               viewport={{ once: true }}
             >
-              <div className="relative bg-gradient-to-br from-purple-600 to-blue-600 rounded-3xl p-8 text-white">
+              <div className="relative bg-gradient-to-br from-blue-600 to-cyan-600 rounded-3xl p-8 text-white">
                 <h3 className="text-2xl font-bold mb-6">Our Mission</h3>
                 <p className="text-lg leading-relaxed mb-6">
                   To provide exceptional home utility services that enhance the comfort, health, and well-being of our customers through professional, reliable, and eco-friendly solutions.
@@ -342,7 +342,7 @@ const HomePage = () => {
             viewport={{ once: true }}
           >
             <h2 className={`text-4xl md:text-5xl font-bold mb-6 ${isDark ? 'text-white' : 'text-gray-800'}`}>
-              Our Premium <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-emerald-600">Services</span>
+              Our Premium <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-600">Services</span>
             </h2>
             <p className={`text-xl max-w-3xl mx-auto ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
               We offer a comprehensive range of home solutions tailored to your needs.
@@ -356,7 +356,7 @@ const HomePage = () => {
                 title: "Professional Water Tank Cleaning",
                 description: "Ensure your family's health with our mechanized dewatering, sludge removal, and high-pressure cleaning services. We remove dirt, bacteria, and algae to provide you with crystal clear water.",
                 features: ["Mechanized Dewatering", "Sludge Removal", "High-Pressure Cleaning", "Anti-bacterial Spray"],
-                image: "https://images.unsplash.com/photo-1504148455328-c376907d081c?q=80&w=1000&auto=format&fit=crop",
+                image: "https://5.imimg.com/data5/SELLER/Default/2023/3/296249489/OI/SD/GL/3364306/water-tank-cleaning-services.jpg",
                 icon: Droplets,
                 reverse: false
               },
@@ -499,7 +499,7 @@ const HomePage = () => {
                 transition={{ delay: index * 0.1, duration: 0.6 }}
                 viewport={{ once: true }}
               >
-                <div className="w-16 h-16 mx-auto mb-6 bg-gradient-to-br from-blue-500 to-cyan-400 rounded-full flex items-center justify-center text-white shadow-lg">
+                <div className="w-16 h-16 mx-auto mb-6 bg-gradient-to-br from-blue-600 to-cyan-600 rounded-full flex items-center justify-center text-white shadow-lg">
                   <item.icon className="w-8 h-8" />
                 </div>
                 <h3 className={`text-xl font-bold mb-3 ${isDark ? 'text-white' : 'text-gray-800'}`}>{item.title}</h3>
@@ -511,7 +511,7 @@ const HomePage = () => {
       </section>
 
       {/* Testimonials Section */}
-      <section className="py-20 bg-gradient-to-br from-purple-900 to-blue-900 text-white relative overflow-hidden">
+      <section className="py-20 bg-gradient-to-br from-slate-900 to-blue-950 text-white relative overflow-hidden">
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
         <div className="container mx-auto px-6 relative z-10">
           <motion.div 
@@ -619,12 +619,12 @@ const HomePage = () => {
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
             <div>
               <div className="flex items-center gap-3 mb-6">
-                <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-cyan-400 rounded-xl flex items-center justify-center shadow-lg">
+                <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-cyan-600 rounded-xl flex items-center justify-center shadow-lg">
                   <SparklesIcon className="text-white w-6 h-6" />
                 </div>
                 <div className="flex flex-col leading-none text-white">
                   <span className="font-bold text-xl tracking-tight">Comfort</span>
-                  <span className="text-xs font-bold tracking-widest uppercase text-blue-400">Home Services</span>
+                  <span className="text-xs font-bold tracking-widest uppercase text-cyan-400">Home Services</span>
                 </div>
               </div>
               <p className="text-gray-400 mb-6">
@@ -637,7 +637,7 @@ const HomePage = () => {
               <ul className="space-y-4">
                 {['Home', 'About', 'Services', 'Contact'].map((item) => (
                   <li key={item}>
-                    <button onClick={() => scrollToSection(item.toLowerCase())} className="text-gray-400 hover:text-blue-400 transition-colors duration-300 flex items-center gap-2">
+                    <button onClick={() => scrollToSection(item.toLowerCase())} className="text-gray-400 hover:text-cyan-400 transition-colors duration-300 flex items-center gap-2">
                       <ArrowRight className="w-4 h-4" /> {item}
                     </button>
                   </li>
@@ -649,18 +649,18 @@ const HomePage = () => {
               <h4 className="text-lg font-bold mb-6">Contact Info</h4>
               <ul className="space-y-4">
                 <li className="flex items-start gap-4">
-                  <MapPin className="w-6 h-6 text-blue-400 shrink-0" />
+                  <MapPin className="w-6 h-6 text-cyan-400 shrink-0" />
                   <span className="text-gray-400">Qadian, Punjab (15km Radius)</span>
                 </li>
                 <li className="flex items-center gap-4">
-                  <Phone className="w-6 h-6 text-blue-400 shrink-0" />
+                  <Phone className="w-6 h-6 text-cyan-400 shrink-0" />
                   <div className="flex flex-col">
                     <a href="tel:+917888745047" className="text-gray-400 hover:text-white">+91 7888745047</a>
                     <a href="tel:+919041290507" className="text-gray-400 hover:text-white">+91 9041290507</a>
                   </div>
                 </li>
                 <li className="flex items-center gap-4">
-                  <Mail className="w-6 h-6 text-blue-400 shrink-0" />
+                  <Mail className="w-6 h-6 text-cyan-400 shrink-0" />
                   <a href="mailto:fa3208581@gmail.com" className="text-gray-400 hover:text-white">fa3208581@gmail.com</a>
                 </li>
               </ul>
@@ -672,6 +672,25 @@ const HomePage = () => {
           </div>
         </div>
       </footer>
+
+      {/* Floating Action Button */}
+      <motion.button
+        drag
+        dragMomentum={false}
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.9 }}
+        onClick={() => setIsContactModalOpen(true)}
+        className="fixed bottom-8 right-8 z-40 w-16 h-16 bg-gradient-to-r from-blue-600 to-cyan-500 rounded-full shadow-2xl flex items-center justify-center cursor-pointer hover:shadow-cyan-500/50 hover:scale-110 transition-all duration-300 border border-white/20 hover:border-white"
+        initial={{ scale: 0, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ delay: 1, type: "spring", stiffness: 260, damping: 20 }}
+      >
+        <span className="absolute top-0 right-0 flex h-4 w-4">
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+          <span className="relative inline-flex rounded-full h-4 w-4 bg-red-500"></span>
+        </span>
+        <MessageCircle className="w-8 h-8 text-white" />
+      </motion.button>
 
       {/* Contact Modal */}
       <AnimatePresence>
@@ -690,7 +709,7 @@ const HomePage = () => {
               className={`relative w-full max-w-md p-8 rounded-3xl shadow-2xl overflow-hidden ${isDark ? 'bg-slate-900 text-white border border-slate-800' : 'bg-white text-gray-900'}`}
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-emerald-500" />
+              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 via-cyan-500 to-teal-500" />
               <div className="absolute -top-24 -right-24 w-48 h-48 bg-blue-500/20 rounded-full blur-3xl" />
               <div className="absolute -bottom-24 -left-24 w-48 h-48 bg-emerald-500/20 rounded-full blur-3xl" />
 
@@ -702,15 +721,15 @@ const HomePage = () => {
               </button>
 
               <div className="text-center mb-8 relative">
-                <div className="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-blue-500 to-emerald-400 rounded-2xl flex items-center justify-center shadow-lg transform rotate-3 group-hover:rotate-0 transition-all duration-300">
+                <div className="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-blue-500 to-cyan-400 rounded-2xl flex items-center justify-center shadow-lg transform rotate-3 group-hover:rotate-0 transition-all duration-300">
                   <Phone className="w-10 h-10 text-white" />
                 </div>
-                <h3 className="text-3xl font-bold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-emerald-600">Get in Touch</h3>
+                <h3 className="text-3xl font-bold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-cyan-600">Get in Touch</h3>
                 <p className={`text-lg ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>We're just a call away!</p>
               </div>
 
               <div className="space-y-4 relative">
-                <a href="tel:+917888745047" className={`flex items-center gap-4 p-4 rounded-2xl transition-all duration-300 group ${isDark ? 'bg-slate-800 hover:bg-slate-700' : 'bg-gray-50 hover:bg-blue-50 hover:shadow-md'}`}>
+                <a href="tel:+917888745047" className={`flex items-center gap-4 p-4 rounded-2xl transition-all duration-300 group border border-transparent hover:border-blue-500 hover:shadow-[0_0_20px_rgba(59,130,246,0.2)] ${isDark ? 'bg-slate-800 hover:bg-slate-800' : 'bg-gray-50 hover:bg-white'}`}>
                   <div className={`p-3 rounded-full ${isDark ? 'bg-blue-900/30 text-blue-400' : 'bg-blue-100 text-blue-600'} group-hover:scale-110 transition-transform`}>
                     <Phone className="w-6 h-6" />
                   </div>
@@ -720,7 +739,7 @@ const HomePage = () => {
                   </div>
                 </a>
 
-                <a href="tel:+919041290507" className={`flex items-center gap-4 p-4 rounded-2xl transition-all duration-300 group ${isDark ? 'bg-slate-800 hover:bg-slate-700' : 'bg-gray-50 hover:bg-green-50 hover:shadow-md'}`}>
+                <a href="tel:+919041290507" className={`flex items-center gap-4 p-4 rounded-2xl transition-all duration-300 group border border-transparent hover:border-green-500 hover:shadow-[0_0_20px_rgba(34,197,94,0.2)] ${isDark ? 'bg-slate-800 hover:bg-slate-800' : 'bg-gray-50 hover:bg-white'}`}>
                   <div className={`p-3 rounded-full ${isDark ? 'bg-green-900/30 text-green-400' : 'bg-green-100 text-green-600'} group-hover:scale-110 transition-transform`}>
                     <FaWhatsapp className="w-6 h-6" />
                   </div>
@@ -730,8 +749,8 @@ const HomePage = () => {
                   </div>
                 </a>
 
-                <a href="mailto:fa3208581@gmail.com" className={`flex items-center gap-4 p-4 rounded-2xl transition-all duration-300 group ${isDark ? 'bg-slate-800 hover:bg-slate-700' : 'bg-gray-50 hover:bg-purple-50 hover:shadow-md'}`}>
-                  <div className={`p-3 rounded-full ${isDark ? 'bg-purple-900/30 text-purple-400' : 'bg-purple-100 text-purple-600'} group-hover:scale-110 transition-transform`}>
+                <a href="mailto:fa3208581@gmail.com" className={`flex items-center gap-4 p-4 rounded-2xl transition-all duration-300 group border border-transparent hover:border-cyan-500 hover:shadow-[0_0_20px_rgba(34,211,238,0.2)] ${isDark ? 'bg-slate-800 hover:bg-slate-800' : 'bg-gray-50 hover:bg-white'}`}>
+                  <div className={`p-3 rounded-full ${isDark ? 'bg-cyan-900/30 text-cyan-400' : 'bg-cyan-100 text-cyan-600'} group-hover:scale-110 transition-transform`}>
                     <Mail className="w-6 h-6" />
                   </div>
                   <div>

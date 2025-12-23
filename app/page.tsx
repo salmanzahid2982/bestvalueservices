@@ -530,19 +530,19 @@ const HomePage = () => {
           <div className="grid md:grid-cols-3 gap-8">
             {[
               {
-                name: "Sarah Johnson",
+                name: "Jagtar Sing",
                 role: "Homeowner",
                 content: "The water tank cleaning service was exceptional. The team was professional, punctual, and left everything spotless. Highly recommended!",
                 rating: 5
               },
               {
-                name: "Michael Chen",
+                name: "Mubarak Khan",
                 role: "Property Manager",
                 content: "We use Comfort Home for all our properties. Their pest control and maintenance services are reliable and effective.",
                 rating: 5
               },
               {
-                name: "Emily Davis",
+                name: "Aisha Verma",
                 role: "Restaurant Owner",
                 content: "Outstanding service! They handled our emergency plumbing issue quickly and efficiently. Great customer support.",
                 rating: 5

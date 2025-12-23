@@ -52,7 +52,7 @@ const HomePage = () => {
 
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
-  const [isDark, setIsDark] = useState(false)
+  const [isDark, setIsDark] = useState(true)
   const [isContactModalOpen, setIsContactModalOpen] = useState(false)
 
   useEffect(() => {

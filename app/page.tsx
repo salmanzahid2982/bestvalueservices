@@ -356,7 +356,7 @@ const HomePage = () => {
                 title: "Professional Water Tank Cleaning",
                 description: "Ensure your family's health with our mechanized dewatering, sludge removal, and high-pressure cleaning services. We remove dirt, bacteria, and algae to provide you with crystal clear water.",
                 features: ["Mechanized Dewatering", "Sludge Removal", "High-Pressure Cleaning", "Anti-bacterial Spray"],
-                image: "https://5.imimg.com/data5/SELLER/Default/2023/3/296249489/OI/SD/GL/3364306/water-tank-cleaning-services.jpg",
+                image: "https://images.unsplash.com/photo-1581092335397-9583eb92d232?q=80&w=1000&auto=format&fit=crop",
                 icon: Droplets,
                 reverse: false
               },

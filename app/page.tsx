@@ -66,11 +66,13 @@ const HomePage = () => {
   }, [])
 
   const scrollToSection = (id: string) => {
-    const element = document.getElementById(id)
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' })
-      setIsMenuOpen(false)
-    }
+    setIsMenuOpen(false)
+    setTimeout(() => {
+      const element = document.getElementById(id)
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' })
+      }
+    }, 100)
   }
 
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0])
@@ -91,7 +93,7 @@ const HomePage = () => {
   }
 
   return (
-    <div className={`min-h-screen transition-colors duration-300 ${isDark ? 'bg-slate-950' : 'bg-white'}`}>
+    <div className={`min-h-screen overflow-x-hidden transition-colors duration-300 ${isDark ? 'bg-slate-950' : 'bg-white'}`}>
       {/* 3D Background */}
       <div className="fixed inset-0 z-0 pointer-events-none">
         <Canvas camera={{ position: [0, 0, 5] }}>
@@ -100,15 +102,15 @@ const HomePage = () => {
       </div>
 
       {/* Navigation Bar */}
-      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? (isDark ? 'bg-slate-900/90 backdrop-blur-md shadow-md py-4' : 'bg-white/90 backdrop-blur-md shadow-md py-4') : 'bg-transparent py-6'}`}>
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled || isMenuOpen ? (isDark ? 'bg-slate-900/90 backdrop-blur-md shadow-md py-4' : 'bg-white/90 backdrop-blur-md shadow-md py-4') : 'bg-transparent py-6'}`}>
         <div className="container mx-auto px-6 flex justify-between items-center">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-cyan-500 rounded-xl flex items-center justify-center shadow-lg transform rotate-3 hover:rotate-0 transition-all duration-300">
               <SparklesIcon className="text-white w-6 h-6" />
             </div>
-            <div className={`flex flex-col leading-none ${isScrolled ? (isDark ? 'text-white' : 'text-gray-800') : 'text-white'}`}>
+            <div className={`flex flex-col leading-none ${isScrolled || isMenuOpen ? (isDark ? 'text-white' : 'text-gray-800') : 'text-white'}`}>
               <span className="font-bold text-xl tracking-tight">Comfort</span>
-              <span className={`text-xs font-bold tracking-widest uppercase ${isScrolled ? (isDark ? 'text-cyan-400' : 'text-cyan-600') : 'text-cyan-200'}`}>Home Services</span>
+              <span className={`text-xs font-bold tracking-widest uppercase ${isScrolled || isMenuOpen ? (isDark ? 'text-cyan-400' : 'text-cyan-600') : 'text-cyan-200'}`}>Home Services</span>
             </div>
           </div>
           
@@ -135,15 +137,15 @@ const HomePage = () => {
           <div className="flex items-center gap-4 md:hidden">
             <button 
               onClick={() => setIsDark(!isDark)}
-              className={`p-2 rounded-full ${isScrolled ? (isDark ? 'text-yellow-400' : 'text-slate-700') : 'text-white'}`}
+              className={`p-2 rounded-full ${isScrolled || isMenuOpen ? (isDark ? 'text-yellow-400' : 'text-slate-700') : 'text-white'}`}
             >
               {isDark ? <Sun size={20} /> : <Moon size={20} />}
             </button>
             <button 
-              className="text-2xl"
+              className={`p-2 text-2xl ${isScrolled || isMenuOpen ? (isDark ? 'text-white' : 'text-gray-800') : 'text-white'}`}
               onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
-              {isMenuOpen ? <X className={isScrolled ? (isDark ? 'text-white' : 'text-gray-800') : 'text-white'} /> : <Menu className={isScrolled ? (isDark ? 'text-white' : 'text-gray-800') : 'text-white'} />}
+              {isMenuOpen ? <X /> : <Menu />}
             </button>
           </div>
         </div>
@@ -155,7 +157,7 @@ const HomePage = () => {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
-              className={`md:hidden border-t ${isDark ? 'bg-slate-900 border-slate-800' : 'bg-white border-gray-100'}`}
+              className={`md:hidden absolute top-full left-0 w-full shadow-lg border-t ${isDark ? 'bg-slate-900 border-slate-800' : 'bg-white border-gray-100'}`}
             >
               <div className="flex flex-col p-6 gap-4">
                 {['Home', 'About', 'Services', 'Contact'].map((item) => (
@@ -177,7 +179,7 @@ const HomePage = () => {
       <section id="home" ref={targetRef} className="relative min-h-screen flex items-center justify-center overflow-hidden bg-transparent">
         <div className="absolute inset-0 bg-black/20"></div>
         <div className="absolute inset-0">
-          <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1614850523459-c2f4c699c52e?q=80&w=2000&auto=format&fit=crop')] bg-cover bg-center opacity-20"></div>
+          <div className="absolute inset-0 bg-[url('/images/hero-bg.jpg')] bg-cover bg-center opacity-20"></div>
         </div>
         
         <motion.div 
@@ -255,7 +257,7 @@ const HomePage = () => {
       </section>
 
       {/* About Section */}
-      <section id="about" className={`py-20 transition-colors duration-300 ${isDark ? 'bg-gradient-to-br from-slate-900 to-slate-800' : 'bg-gradient-to-br from-gray-50 to-blue-50'}`}>
+      <section id="about" className={`py-20 scroll-mt-20 transition-colors duration-300 ${isDark ? 'bg-gradient-to-br from-slate-900 to-slate-800' : 'bg-gradient-to-br from-gray-50 to-blue-50'}`}>
         <div className="container mx-auto px-6">
           <motion.div 
             className="text-center mb-16"
@@ -332,7 +334,7 @@ const HomePage = () => {
       </section>
 
       {/* Detailed Services Section */}
-      <section id="services" className={`py-20 transition-colors duration-300 ${isDark ? 'bg-slate-950' : 'bg-white'}`}>
+      <section id="services" className={`py-20 scroll-mt-20 transition-colors duration-300 ${isDark ? 'bg-slate-950' : 'bg-white'}`}>
         <div className="container mx-auto px-6">
           <motion.div 
             className="text-center mb-16"
@@ -356,7 +358,7 @@ const HomePage = () => {
                 title: "Professional Water Tank Cleaning",
                 description: "Ensure your family's health with our mechanized dewatering, sludge removal, and high-pressure cleaning services. We remove dirt, bacteria, and algae to provide you with crystal clear water.",
                 features: ["Mechanized Dewatering", "Sludge Removal", "High-Pressure Cleaning", "Anti-bacterial Spray"],
-                image: "https://images.unsplash.com/photo-1581092335397-9583eb92d232?q=80&w=1000&auto=format&fit=crop",
+                image: "/images/water-tank.jpg",
                 icon: Droplets,
                 reverse: false
               },
@@ -365,7 +367,7 @@ const HomePage = () => {
                 title: "Home Shifting & Moving Services",
                 description: "Relocating? We make moving hassle-free. From packing your delicate items to safely transporting furniture and appliances, our experienced team handles everything with care.",
                 features: ["Professional Packing", "Safe Transportation", "Loading & Unloading", "Furniture Assembly"],
-                image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1000&auto=format&fit=crop",
+                image: "/images/shifting.jpg",
                 icon: Truck,
                 reverse: true
               },
@@ -374,7 +376,7 @@ const HomePage = () => {
                 title: "Appliance Repair & Maintenance",
                 description: "Don't let a broken fridge or washing machine disrupt your routine. Our skilled technicians provide quick and reliable repairs for all major brands of household appliances.",
                 features: ["Refrigerator Repair", "Washing Machine Fix", "Microwave Service", "Genuine Spare Parts"],
-                image: "https://images.unsplash.com/photo-1581092160562-40aa08e78837?q=80&w=1000&auto=format&fit=crop",
+                image: "/images/repair.jpg",
                 icon: Wrench,
                 reverse: false
               },
@@ -383,7 +385,7 @@ const HomePage = () => {
                 title: "Electrical & Plumbing Solutions",
                 description: "From fixing electrical fractures and wiring to resolving plumbing leaks and water solutions. We handle geyser installation, tap repairs, and complete home utility maintenance.",
                 features: ["Wiring & Switchboard", "Geyser Repair", "Leakage Fixes", "Pipe Fitting"],
-                image: "https://images.unsplash.com/photo-1621905252507-b35492cc74b4?q=80&w=1000&auto=format&fit=crop",
+                image: "/images/utility.jpg",
                 icon: Zap,
                 reverse: true
               },
@@ -392,7 +394,7 @@ const HomePage = () => {
                 title: "Buy & Sell Used Appliances",
                 description: "Want to upgrade? Sell your old fridge, washing machine, or other gadgets at the best price. We also offer quality checked used appliances for sale.",
                 features: ["Best Value for Old Items", "Instant Payment", "Quality Checked Sales", "Doorstep Pickup"],
-                image: "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?q=80&w=1000&auto=format&fit=crop",
+                image: "/images/buysell.jpg",
                 icon: ShoppingBag,
                 reverse: false
               }
@@ -512,7 +514,7 @@ const HomePage = () => {
 
       {/* Testimonials Section */}
       <section className="py-20 bg-gradient-to-br from-slate-900 to-blue-950 text-white relative overflow-hidden">
-        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
+        <div className="absolute inset-0 bg-[url('/images/cubes-pattern.png')] opacity-10"></div>
         <div className="container mx-auto px-6 relative z-10">
           <motion.div 
             className="text-center mb-16"
@@ -614,7 +616,7 @@ const HomePage = () => {
       </section>
 
       {/* Footer */}
-      <footer id="contact" className="bg-gray-900 text-white pt-20 pb-10">
+      <footer id="contact" className="bg-gray-900 text-white pt-20 pb-10 scroll-mt-20">
         <div className="container mx-auto px-6">
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
             <div>
